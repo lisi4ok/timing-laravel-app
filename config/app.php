@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'datetime_format' => env('APP_DATETIME_FORMAT', \Locale::getDefault()),
 
     /*
     |--------------------------------------------------------------------------

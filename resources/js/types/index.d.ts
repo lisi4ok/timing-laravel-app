@@ -3,6 +3,7 @@ import type { Config } from 'ziggy-js';
 
 export interface Auth {
     user: User;
+    timing: Timing;
 }
 
 export interface BreadcrumbItem {
@@ -38,5 +39,15 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Timing {
+    name: string;
+    egn: string;
+    value: string | Date;
+    email?: string;
+    phone?: number;
+    description?: string;
     [key: string]: unknown; // This allows for additional properties...
 }
