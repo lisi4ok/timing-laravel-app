@@ -1,0 +1,42 @@
+services:
+  mysql:
+    container_name: mysql
+    image: mysql/mysql-server:latest
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_HOST: ${DB_HOST}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - mysql-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "${PHPMYADMIN_PORT}:${PHPMYADMIN_PORT}"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: ${DB_PORT}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MEMORY_LIMIT: '-1'
+      MAX_EXECUTION_TIME: 0
+      APACHE_PORT: ${PHPMYADMIN_PORT}
+      UPLOAD_LIMIT: '10G'
+    depends_on:
+      - mysql
+    networks:
+      - mysql-network
+
+networks:
+  mysql-network:
+    driver: bridge
